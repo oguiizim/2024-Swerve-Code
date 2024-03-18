@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -57,17 +58,26 @@ public final class Constants {
     public static final PIDFConfig yAutoPID = new PIDFConfig(1.52, 0, 0);
     // PID de rotação
     public static final PIDFConfig angleAutoPID = new PIDFConfig(2.3, 0, 0);
+    // PID de translação do autônomo
+    public static double translationP = 0.0;
+    public static double translationI = 0.0;
+    public static double translationD = 0.0;
+
+    // PID de angulação do Lançador
+    public static double kP = 2;
+    public static double kI = 0;
+    public static double kD = 0;
   }
 
   public static final class Motors {
-    public static final int coletor1 = 9;
-    public static final int coletor2 = 10;
+    // public static final int coletor1 = 9;
+    // public static final int coletor2 = 10;
 
-    public static final int lancador1 = 11;
-    public static final int lancador2 = 12;
-    public static final int lancador3 = 13;
+    // public static final int lancador1 = 11;
+    // public static final int lancador2 = 12;
+    // public static final int lancador3 = 13;
 
-    public static final int gancho = 14;
+    // public static final int gancho = 14;
   }
 
   public static final class Controle {
@@ -106,7 +116,7 @@ public final class Constants {
 
     public static final double TURN_CONSTANT = 0.75;
 
-    public static final double MAX_SPEED = 4.8;
+    public static final double MAX_SPEED = 4.5;
 
     public static final double dt = 0.02;
 

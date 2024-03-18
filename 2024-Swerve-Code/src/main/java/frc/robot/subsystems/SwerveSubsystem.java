@@ -11,9 +11,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Dimensoes;
+import frc.robot.Constants.PID;
 import frc.robot.Constants.Tracao;
 import frc.robot.commands.Auto.ConfigAuto;
 import swervelib.SwerveController;
@@ -32,8 +36,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
   // Objeto global autônomo
   ConfigAuto autonomo;
-
-  public static double maximumSpeed;
 
   // Método construtor da classe
   public SwerveSubsystem(File directory) {
@@ -54,24 +56,39 @@ public class SwerveSubsystem extends SubsystemBase {
 
     autonomo.setupPathPlanner();
   }
-  
-  // public double getAbsolutePosition() {
-  //   return getAbsolutePosition();  
-  // }
 
   @Override
   public void periodic() {
     // Dentro da função periódica atualizamos nossa odometria
     swerveDrive.updateOdometry();
+
+    double pAuto = SmartDashboard.getNumber("P Gain Auto", PID.translationP);
+    double iAuto = SmartDashboard.getNumber("I Gain Auto", PID.translationI);
+    double dAuto = SmartDashboard.getNumber("D Gain Auto", PID.translationD);
+
+    if (pAuto != PID.translationP) {
+      PID.translationP = pAuto;
+    }
+    if(iAuto != PID.translationI){
+      PID.translationI = iAuto;
+    }
+    if(dAuto != PID.translationD){
+      PID.translationD = dAuto;
+    }
   }
 
-  // public void slowMode(double maximumSpeed){
-  //   swerveDrive.setMaximumSpeed(0.3);
-  // }
+  public Measure<Distance> distanceToTarget(Translation2d target) {
+    Translation2d robotPos = this.swerveDrive.getPose().getTranslation();
+    double measured = robotPos.getDistance(target);
+    return edu.wpi.first.units.Units.Meters.of(measured);
+  }
 
-  // public void fastMode(double maximumSpeed){
-  //   swerveDrive.setMaximumSpeed(3);
-  // }
+  public Rotation2d rotationToTarget(Translation2d target) {
+    Translation2d robotPos = this.swerveDrive.getPose().getTranslation();
+    double targetRadians = Math.atan2(target.getY() - robotPos.getY(), target.getX() - robotPos.getX());
+    double targetDegrees = Math.toDegrees(targetRadians);
+    return new Rotation2d(targetDegrees);
+  }
 
   // Função drive que chamamos em nossa classe de comando Teleoperado
   public void drive(Translation2d translation, double rotation, boolean fieldRelative) {

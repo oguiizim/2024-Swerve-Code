@@ -4,10 +4,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.PID;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -16,8 +17,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    CameraServer.startAutomaticCapture("USB Camera 1", 0);
     m_robotContainer = new RobotContainer();
+    SmartDashboard.putNumber("P Gain Shooter", PID.kP);
+    SmartDashboard.putNumber("I Gain Shooter", PID.kI);
+    SmartDashboard.putNumber("D Gain Shooter", PID.kD);
+
+    SmartDashboard.putNumber("P Gain Auto", PID.translationP);
+    SmartDashboard.putNumber("I Gain Auto", PID.translationI);
+    SmartDashboard.putNumber("D Gain Auto", PID.translationD);
   }
 
   @Override
@@ -26,10 +33,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
   public void autonomousInit() {
@@ -42,12 +51,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
-
-    // m_robotContainer.swerve.zeroGyro();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -55,7 +63,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    
+  }
 
   @Override
   public void testInit() {
@@ -63,11 +74,14 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+  }
 
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 }

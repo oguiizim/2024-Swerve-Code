@@ -69,9 +69,9 @@ public class Teleop extends Command {
 
     omega = controller.config.maxAngularVelocity * angVelocity;
 
-    if(controle1.getRawButton(Controle.kB)){
+    if(controle1.getRawAxis(Controle.rightTrigger) != 0){
       translation = new Translation2d(xVelocity * 0.25, yVelocity * 0.25);
-    } else if(controle1.getRawButton(Controle.kY)){
+    } else if(controle1.getRawAxis(Controle.leftTrigger) != 0){
       translation = new Translation2d(xVelocity * 1, yVelocity * 1);
     }
     

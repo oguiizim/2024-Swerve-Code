@@ -15,12 +15,9 @@ public class Gyro extends Command {
 
     double setPoint;
 
-    XboxController control;
-
-    public Gyro(SwerveSubsystem subsystem, double setPoint, XboxController control) {
+    public Gyro(SwerveSubsystem subsystem, double setPoint) {
         swerve = subsystem;
         this.setPoint = setPoint;
-        this.control = control;
         anglePIDController = new PIDController(PID.angleAutoPID.p, PID.angleAutoPID.i, PID.angleAutoPID.d);
         anglePIDController.enableContinuousInput(-180, 180);
         // anglePIDController.setTolerance(0.1);
@@ -37,20 +34,6 @@ public class Gyro extends Command {
     public void execute() {
         double outPut = anglePIDController.calculate(swerve.getHeading().getRadians(), Math.toRadians(setPoint));
         swerve.setChassisSpeeds(new ChassisSpeeds(0, 0, outPut));
-
-        if (control.getPOV() == 0) {
-            setPoint = 0;
-        } else if (control.getPOV() == 270) {
-            setPoint = -90;
-        } else if (control.getPOV() == 90) {
-            setPoint = 90;
-        } else if (control.getPOV() == 180) {
-            setPoint = 180;
-        } else if (control.getXButton()) {
-            setPoint = 60;
-        } else if (control.getBButton()) {
-            setPoint = -60;
-        }
 
     }
 

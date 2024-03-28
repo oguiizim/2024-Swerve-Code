@@ -9,8 +9,8 @@ public class Intake extends SubsystemBase {
      
      CANSparkMax frontIntake, backIntake;
      public Intake(){
-          frontIntake = new CANSparkMax(0, MotorType.kBrushless);
-          backIntake = new CANSparkMax(0, MotorType.kBrushless);
+          frontIntake = new CANSparkMax(14, MotorType.kBrushless);
+          backIntake = new CANSparkMax(15, MotorType.kBrushless);
 
           backIntake.setInverted(true);
      }

@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -64,7 +63,7 @@ public final class Constants {
     public static double translationD = 0.0;
 
     // PID de angulação do Lançador
-    public static double kP = 1;
+    public static double kP = 1.2;
     public static double kI = 0;
     public static double kD = 0;
   }

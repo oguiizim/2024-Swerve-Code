@@ -6,7 +6,6 @@ package frc.robot;
 
 import frc.robot.Constants.Controle;
 import frc.robot.commands.AngleCmd;
-import frc.robot.commands.Gyro;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.Teleop;
 import frc.robot.subsystems.AngleShooter;
@@ -73,13 +72,14 @@ public class RobotContainer {
 
     new JoystickButton(operatorControl, XboxController.Button.kA.value).whileTrue(Commands.runEnd(
         () -> {
+          subAngle.setTarget(0.45);
           subIntake.collect();
           subShooter.setSpeedConveyor(0.5);
         },
         () -> {
           subIntake.stop();
           subShooter.stopMotor();
-        }, subIntake, subShooter));
+        }, subIntake, subShooter, subAngle));
 
     new JoystickButton(operatorControl, XboxController.Button.kStart.value).whileTrue(Commands.runEnd(
         () -> {

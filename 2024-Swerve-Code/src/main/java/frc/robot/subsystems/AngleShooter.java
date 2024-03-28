@@ -15,7 +15,6 @@ public class AngleShooter extends SubsystemBase {
 
      CANSparkMax angle1, angle2;
      DutyCycleEncoder pidEncoder;
-     // Encoder piEncoder;
      PIDController anglePidController;
      LimelightHelpers camera = new LimelightHelpers();
 
@@ -27,6 +26,7 @@ public class AngleShooter extends SubsystemBase {
           angle1 = new CANSparkMax(12, MotorType.kBrushless);
           angle2 = new CANSparkMax(13, MotorType.kBrushless);
           pidEncoder.setPositionOffset(0.51);
+          pidEncoder.setDutyCycleRange(0.35, 0.90);
 
           // angle1.setInverted(true);
 
@@ -45,7 +45,7 @@ public class AngleShooter extends SubsystemBase {
           return angle;
      }
 
-     public void reset(){
+     public void reset() {
           pidEncoder.reset();
      }
 
@@ -90,9 +90,9 @@ public class AngleShooter extends SubsystemBase {
 
           outPut = MathUtil.clamp(outPut, -0.5, 0.5);
 
-          // setSpeed(outPut);
+          setSpeed(outPut);
 
-          SmartDashboard.putNumber("Position", getPosition());
+          SmartDashboard.putNumber("Position", getPosition() * 360);
           SmartDashboard.putNumber("Setpoint", anglePidController.getSetpoint());
           // SmartDashboard.putNumber("Velocity Angle", outPut);
           SmartDashboard.putNumber("Angle", angleShooter());

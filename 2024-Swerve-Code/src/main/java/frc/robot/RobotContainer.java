@@ -64,9 +64,9 @@ public class RobotContainer {
 
     new JoystickButton(operatorControl, XboxController.Button.kA.value).whileTrue(Commands.runEnd(
         () -> {
-          subAngle.setTarget(0.686);
+          // subAngle.setTarget(0.686);
           subIntake.collect();
-          subShooter.setSpeedConveyor(0.5);
+          subShooter.setSpeedConveyor(0.25);
         },
         () -> {
           subIntake.stop();

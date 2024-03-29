@@ -33,15 +33,24 @@ public class AngleShooter extends SubsystemBase {
      }
 
      public double angleShooter() {
-          double minValue = 4.1;
-          double maxValue = 24.3;
+          double minValue = 0.560;
+          double maxValue = 0.180;
           double value = camera.getTA("");
 
-          double minAngle = 15;
-          double maxAngle = 60;
+          double minAngle = 228;
+          double maxAngle = 276.12 ;
           double proportion = (value - minValue) / (maxValue - minValue);
           double angle = minAngle + (proportion * (maxAngle - minAngle));
           return angle;
+     }
+
+     public double angleForShoot(){
+          double angleFS = angleShooter() / 360;
+          return angleFS;
+     }
+
+     public boolean tag(){
+          return camera.getTA("") == 0;
      }
 
      public void reset() {
@@ -87,16 +96,17 @@ public class AngleShooter extends SubsystemBase {
 
           double outPut = anglePidController.calculate(getPosition());
 
-          double angleForShoot = (getPosition() * 360) - 316;
+          double angleFS = (getPosition() * 360) - 316;
 
           outPut = MathUtil.clamp(outPut, -0.5, 0.5);
 
           setSpeed(outPut);
 
           SmartDashboard.putNumber("Position", getPosition() * 360);
-          SmartDashboard.putNumber("Angle For Shoot", angleForShoot);
-          SmartDashboard.putNumber("Setpoint", anglePidController.getSetpoint());
-          // SmartDashboard.putNumber("Velocity Angle", outPut);
+          SmartDashboard.putNumber("Angle For Shoot", Math.abs(angleFS));
+          SmartDashboard.putNumber("Setpoint", anglePidController.getSetpoint() * 360);
+          SmartDashboard.putNumber("Velocity Angle", outPut);
           SmartDashboard.putNumber("Angle", angleShooter());
+          SmartDashboard.putNumber("test", angleForShoot());
      }
 }

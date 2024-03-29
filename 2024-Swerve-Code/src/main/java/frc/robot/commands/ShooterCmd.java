@@ -29,7 +29,7 @@ public class ShooterCmd extends Command {
       if (shooter.getProximity() > 100) {
         shooter.stopMotorConveyor();
       } else {
-        shooter.setSpeedConveyor(0.30);
+        shooter.setSpeedConveyor(0.33);
       }
     } else {
       shooter.stopMotorConveyor();
@@ -39,6 +39,7 @@ public class ShooterCmd extends Command {
 
   @Override
   public void end(boolean interrupted) {
+    shooter.stopMotor();
     shooter.stopMotorConveyor();
     intake.stop();
   }

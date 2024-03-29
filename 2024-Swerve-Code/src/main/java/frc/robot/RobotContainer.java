@@ -17,8 +17,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Controle;
 import frc.robot.commands.AngleCmd;
+import frc.robot.commands.ShootAmp;
+import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.Teleop;
 import frc.robot.subsystems.AngleShooter;
@@ -77,43 +80,17 @@ public class RobotContainer {
   private void configureBindings() {
     new JoystickButton(driverControl, Button.kA.value)
       .onTrue(new InstantCommand(swerve::zeroGyro));
-    // new JoystickButton(operatorControl, XboxController.Button.kA.value)
-    //   .whileTrue(
-    //     Commands.runEnd(
-    //       () -> {
-    //         subAngle.setTarget(0.50);
-    //         subIntake.collect();
-    //         subShooter.setSpeedConveyor(0.35);
-    //         get();
-    //       },
-    //       () -> {
-    //         subIntake.stop();
-    //         subShooter.stopMotorConveyor();
-    //       },
-    //       subIntake,
-    //       subShooter,
-    //       subAngle
-    //     )
-    //   );
 
-    // new JoystickButton(operatorControl, XboxController.Button.kStart.value)
-    //   .whileTrue(
-    //     Commands.runEnd(
-    //       () -> {
-    //         subIntake.invert();
-    //       },
-    //       () -> {
-    //         subIntake.stop();
-    //       },
-    //       subIntake
-    //     )
-    //   );
+    new Trigger(this::getRight).onTrue(new ShootSpeaker(subShooter));
+    new Trigger(this::getLeft).onTrue(new ShootAmp(subShooter));
   }
 
-  private void get() {
-    if (subShooter.getProximity() > 100) {
-      subShooter.stopMotorConveyor();
-    }
+  private boolean getRight() {
+    return operatorControl.getRawAxis(Controle.rightTrigger) != 0;
+  }
+
+  private boolean getLeft() {
+    return operatorControl.getRawAxis(Controle.leftTrigger) != 0;
   }
 
   public Command getAutonomousCommand() {

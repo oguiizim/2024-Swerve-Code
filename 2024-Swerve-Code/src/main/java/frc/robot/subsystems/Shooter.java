@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -10,8 +12,8 @@ public class Shooter extends SubsystemBase {
 
      CANSparkMax shooter1, shooter2, conveyor;
 
-     // I2C.Port i2cport = I2C.Port.kOnboard;
-     // ColorSensorV3 colorSensor = new ColorSensorV3(i2cport);
+     I2C.Port i2cport = I2C.Port.kOnboard;
+     ColorSensorV3 colorSensor = new ColorSensorV3(i2cport);
 
      public Shooter() {
 
@@ -26,12 +28,9 @@ public class Shooter extends SubsystemBase {
           shooter2.follow(shooter1);
      }
 
-     // public boolean getProximity() {
-     // if (colorSensor.getProximity() > 110) {
-     // return true;
-     // }
-     // return false;
-     // }
+     public double getProximity() {
+          return colorSensor.getProximity();
+     }
 
      public void shootSpeaker(int time1, int time2) throws InterruptedException {
           shooter1.set(0.8);
@@ -47,8 +46,8 @@ public class Shooter extends SubsystemBase {
           shooter1.set(0.2);
           shooter2.set(0.2);
           Thread.sleep(1000);
-          conveyor.set(0.8);
-          Thread.sleep(700);
+          conveyor.set(0.65);
+          Thread.sleep(1500);
           shooter1.stopMotor();
           conveyor.stopMotor();
      }
@@ -73,6 +72,6 @@ public class Shooter extends SubsystemBase {
      public void periodic() {
           SmartDashboard.putNumber("Shooter Velocity", shooter1.getEncoder().getVelocity());
           SmartDashboard.putNumber("Conveyor Velocity", conveyor.getEncoder().getVelocity());
-          // SmartDashboard.putNumber("Sensor Proximity", colorSensor.getProximity());
+          SmartDashboard.putNumber("Sensor Proximity", colorSensor.getProximity());
      }
 }

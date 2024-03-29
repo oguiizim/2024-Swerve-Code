@@ -38,8 +38,11 @@ public class ShooterCmd extends Command {
                     e.printStackTrace();
                }
 
-          } else if (control.getRawButton(Controle.kX)) {
+          } else if (control.getRawButton(Controle.kA)) {
                shooter.setSpeedConveyor(0.5);
+               if (shooter.getProximity() > 100) {
+                    shooter.stopMotorConveyor();
+               }
           } else {
                shooter.stopMotor();
                shooter.stopMotorConveyor();

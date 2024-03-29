@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.Controle;
 import frc.robot.subsystems.AngleShooter;
 
 public class AngleCmd extends Command {
@@ -25,10 +26,12 @@ public class AngleCmd extends Command {
      @Override
      public void execute() {
           
-          if(control.getRawButton(2)){
-               angle.setTarget(0.45);
-          } else if(control.getRawButton(3)){
+          if(control.getRawButton(Controle.kB)){
+               angle.setTarget(0.95);
+          } else if(control.getRawButton(Controle.kY)){
                angle.setTarget(0.1);
+          } else if(control.getRawButton(Controle.kX)){
+               angle.setTarget(0.5);
           }
      }
 

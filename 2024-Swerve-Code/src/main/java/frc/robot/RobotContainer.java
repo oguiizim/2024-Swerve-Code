@@ -44,14 +44,6 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    NamedCommands.registerCommand("shoot", Commands.runOnce(() -> {
-      try {
-        subShooter.shootSpeaker(4000, 1110);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }, subShooter));
-
     swerve.setDefaultCommand(new Teleop(swerve,
         () -> -MathUtil.applyDeadband(driverControl.getLeftY(), Controle.DEADBAND),
         () -> -MathUtil.applyDeadband(driverControl.getLeftX(), Controle.DEADBAND),
@@ -72,7 +64,7 @@ public class RobotContainer {
 
     new JoystickButton(operatorControl, XboxController.Button.kA.value).whileTrue(Commands.runEnd(
         () -> {
-          subAngle.setTarget(0.45);
+          subAngle.setTarget(0.686);
           subIntake.collect();
           subShooter.setSpeedConveyor(0.5);
         },

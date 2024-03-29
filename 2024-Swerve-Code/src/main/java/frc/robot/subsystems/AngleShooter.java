@@ -22,7 +22,6 @@ public class AngleShooter extends SubsystemBase {
 
           anglePidController = new PIDController(PID.kP, PID.kI, PID.kD);
           pidEncoder = new DutyCycleEncoder(0);
-          // piEncoder = new Encoder(1, 2, false, EncodingType.k4X);
           angle1 = new CANSparkMax(12, MotorType.kBrushless);
           angle2 = new CANSparkMax(13, MotorType.kBrushless);
           pidEncoder.setPositionOffset(0.51);
@@ -88,11 +87,14 @@ public class AngleShooter extends SubsystemBase {
 
           double outPut = anglePidController.calculate(getPosition());
 
+          double angleForShoot = (getPosition() * 360) - 316;
+
           outPut = MathUtil.clamp(outPut, -0.5, 0.5);
 
           setSpeed(outPut);
 
           SmartDashboard.putNumber("Position", getPosition() * 360);
+          SmartDashboard.putNumber("Angle For Shoot", angleForShoot);
           SmartDashboard.putNumber("Setpoint", anglePidController.getSetpoint());
           // SmartDashboard.putNumber("Velocity Angle", outPut);
           SmartDashboard.putNumber("Angle", angleShooter());

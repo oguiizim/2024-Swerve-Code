@@ -7,48 +7,49 @@ import frc.robot.subsystems.AngleShooter;
 
 public class AngleCmd extends Command {
 
-     Joystick control = new Joystick(1);
+  Joystick control = new Joystick(1);
 
-     AngleShooter angle;
+  AngleShooter angle;
 
-     public AngleCmd(AngleShooter subsystem, Joystick control) {
-          angle = subsystem;
-          this.control = control;
+  public AngleCmd(AngleShooter subsystem, Joystick control) {
+    angle = subsystem;
+    this.control = control;
 
-          addRequirements(subsystem);
-     }
+    addRequirements(subsystem);
+  }
 
-     @Override
-     public void initialize() {
-          angle.setTarget(0.1);
-     }
+  @Override
+  public void initialize() {
+    angle.setTarget(0.1);
+  }
 
-     @Override
-     public void execute() {
-          
-          if(control.getRawButton(Controle.kB)){
-               angle.setTarget(0.95);
-          } else if(control.getRawButton(Controle.kY)){
-               angle.setTarget(0.1);
-          } else if(control.getRawButton(Controle.kX)){
-               angle.setTarget(0.77);
-          } else if(control.getPOV()==0){
-               // angle.setTarget(angle.angleForShoot());
-               if(angle.tag()){
-                    angle.setTarget(0.1);
-               } else {
-                    angle.setTarget(angle.angleForShoot());
-               }
-          }
-     }
+  @Override
+  public void execute() {
+    if (control.getRawButton(Controle.kB)) {
+      angle.setTarget(0.95);
+    } else if (control.getRawButton(Controle.kY)) {
+      angle.setTarget(0.1);
+    } else if (control.getRawButton(Controle.kX)) {
+      // angle.setTarget(angle.angleForShoot());
+      if (angle.tag()) {
+        angle.setTarget(0.1);
+      } else {
+        angle.setTarget(angle.angleForShoot());
+      }
+    } else if (control.getPOV() == 0) {
+      angle.setTarget(0.77);
+    } else if (control.getRawButton(Controle.kA)) {
+      angle.setTarget(0.50);
+    }
+  }
 
-     @Override
-     public void end(boolean interrupted) {
-          angle.stop();
-     }
+  @Override
+  public void end(boolean interrupted) {
+    angle.stop();
+  }
 
-     @Override
-     public boolean isFinished() {
-          return false;
-     }
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }

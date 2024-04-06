@@ -20,10 +20,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Controle;
 import frc.robot.commands.AngleCmd;
+import frc.robot.commands.Gyro;
 import frc.robot.commands.ShootAmp;
+import frc.robot.commands.ShootSource;
 import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.Teleop;
+import frc.robot.commands.Auto.Shoot1;
+import frc.robot.commands.Auto.ShootTeste;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -33,43 +37,75 @@ import java.io.File;
 public class RobotContainer {
 
   static final SwerveSubsystem swerve = new SwerveSubsystem(
-    new File(Filesystem.getDeployDirectory(), "swerve")
-  );
+      new File(Filesystem.getDeployDirectory(), "swerve"));
   public static final Intake subIntake = new Intake();
   public static final AngleShooter subAngle = new AngleShooter();
   public static final Shooter subShooter = new Shooter();
 
   public static final XboxController driverControl = new XboxController(
-    Controle.xboxControle
-  );
+      Controle.xboxControle);
   public static final Joystick operatorControl = new Joystick(
-    Controle.controle2
-  );
+      Controle.controle2);
 
   private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
     swerve.setDefaultCommand(
-      new Teleop(
-        swerve,
-        () ->
-          -MathUtil.applyDeadband(driverControl.getLeftY(), Controle.DEADBAND),
-        () ->
-          -MathUtil.applyDeadband(driverControl.getLeftX(), Controle.DEADBAND),
-        () ->
-          -MathUtil.applyDeadband(driverControl.getRightX(), Controle.DEADBAND),
-        driverControl
-      )
-    );
+        new Teleop(
+            swerve,
+            () -> -MathUtil.applyDeadband(driverControl.getLeftY(), Controle.DEADBAND),
+            () -> -MathUtil.applyDeadband(driverControl.getLeftX(), Controle.DEADBAND),
+            () -> -MathUtil.applyDeadband(driverControl.getRightX(), Controle.DEADBAND),
+            driverControl));
+
+    NamedCommands.registerCommand("shoot1", new Shoot1(subShooter, subAngle));
+
+    // NamedCommands.registerCommand("gyro_60", new Gyro(swerve, 60));
+
+    NamedCommands.registerCommand("shootTeste", new ShootTeste(subShooter, subAngle));
+
+    NamedCommands.registerCommand("putAngle", Commands.runOnce(
+        () -> subAngle.setTarget(subAngle.getAngle()),
+        subAngle));
+
+    NamedCommands.registerCommand("collect", Commands.run(
+        () -> {
+          subAngle.setTarget(0.5);
+          subIntake.collect();
+          subShooter.collectWithSensor();
+        }, subAngle, subIntake, subShooter));
+
+    NamedCommands.registerCommand("stopIntake", Commands.runOnce(() -> {
+      subIntake.stop();
+      subAngle.setTarget(0.1);
+    }, subIntake, subAngle));
+
+    NamedCommands.registerCommand("stopConveyor", Commands.runOnce(() -> subShooter.stopMotorConveyor(), subShooter));
+
+    NamedCommands.registerCommand("stopShooter", Commands.runOnce(
+        () -> subShooter.stopAll(),
+        subShooter));
+
+    // NamedCommands.registerCommand(
+    // "return0",
+    // Commands.runOnce(() -> subAngle.setTarget(0.1), subAngle)
+    // );
+
+    // NamedCommands.registerCommand(
+    // "stopIntake",
+    // Commands.runOnce(
+    // () -> {
+    // subIntake.stop();
+    // subShooter.stopMotorConveyor();
+    // },
+    // subIntake,
+    // subShooter
+    // )
+    // );
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
-    subShooter.setDefaultCommand(
-      new ShooterCmd(subShooter, subIntake, operatorControl)
-    );
-    subIntake.setDefaultCommand(
-      new ShooterCmd(subShooter, subIntake, operatorControl)
-    );
+    subShooter.setDefaultCommand(new ShooterCmd(subShooter, operatorControl));
     subAngle.setDefaultCommand(new AngleCmd(subAngle, operatorControl));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -79,18 +115,46 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(driverControl, Button.kA.value)
-      .onTrue(new InstantCommand(swerve::zeroGyro));
+        .onTrue(new InstantCommand(swerve::zeroGyro));
 
     new Trigger(this::getRight).onTrue(new ShootSpeaker(subShooter));
     new Trigger(this::getLeft).onTrue(new ShootAmp(subShooter));
+
+    new JoystickButton(operatorControl, XboxController.Button.kLeftBumper.value)
+        .onTrue(new ShootTeste(subShooter, subAngle));
+
+    new JoystickButton(operatorControl, XboxController.Button.kA.value)
+        .whileTrue(
+            Commands.startEnd(
+                () -> subIntake.collect(),
+                () -> subIntake.stop(),
+                subIntake));
+
+    new JoystickButton(operatorControl, XboxController.Button.kStart.value)
+        .whileTrue(
+            Commands.startEnd(
+                () -> subIntake.invert(),
+                () -> subIntake.stop(),
+                subIntake));
+
+    new JoystickButton(
+        operatorControl,
+        XboxController.Button.kRightBumper.value)
+        .onTrue(new ShootSource(subShooter));
   }
 
   private boolean getRight() {
-    return operatorControl.getRawAxis(Controle.rightTrigger) != 0;
+    if (operatorControl.getRawAxis(Controle.rightTrigger) != 0) {
+      return true;
+    }
+    return false;
   }
 
   private boolean getLeft() {
-    return operatorControl.getRawAxis(Controle.leftTrigger) != 0;
+    if (operatorControl.getRawAxis(Controle.leftTrigger) != 0) {
+      return true;
+    }
+    return false;
   }
 
   public Command getAutonomousCommand() {

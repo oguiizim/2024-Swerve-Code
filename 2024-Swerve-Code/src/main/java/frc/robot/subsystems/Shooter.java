@@ -30,6 +30,13 @@ public class Shooter extends SubsystemBase {
     return colorSensor.getProximity();
   }
 
+  public void collectWithSensor() {
+    conveyor.set(0.33);
+    if (getProximity() > 90) {
+      conveyor.stopMotor();
+    }
+  }
+
   public void setSpeed(double speed) {
     shooter1.set(speed);
   }
@@ -46,16 +53,18 @@ public class Shooter extends SubsystemBase {
     conveyor.stopMotor();
   }
 
+  public void stopAll() {
+    shooter1.stopMotor();
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber(
-      "Shooter Velocity",
-      shooter1.getEncoder().getVelocity()
-    );
+        "Shooter Velocity",
+        shooter1.getEncoder().getVelocity());
     SmartDashboard.putNumber(
-      "Conveyor Velocity",
-      conveyor.getEncoder().getVelocity()
-    );
+        "Conveyor Velocity",
+        conveyor.getEncoder().getVelocity());
     SmartDashboard.putNumber("Sensor Proximity", colorSensor.getProximity());
   }
 }

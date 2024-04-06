@@ -8,41 +8,46 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class Gyro extends Command {
 
-    PIDController anglePIDController;
+  PIDController anglePIDController;
 
-    SwerveSubsystem swerve;
+  SwerveSubsystem swerve;
 
-    double setPoint;
+  double setPoint;
 
-    public Gyro(SwerveSubsystem subsystem, double setPoint) {
-        swerve = subsystem;
-        this.setPoint = setPoint;
-        anglePIDController = new PIDController(PID.angleAutoPID.p, PID.angleAutoPID.i, PID.angleAutoPID.d);
-        anglePIDController.enableContinuousInput(-180, 180);
-        // anglePIDController.setTolerance(0.1);
+  public Gyro(SwerveSubsystem subsystem, double setPoint) {
+    swerve = subsystem;
+    this.setPoint = setPoint;
+    anglePIDController =
+      new PIDController(
+        PID.angleAutoPID.p,
+        PID.angleAutoPID.i,
+        PID.angleAutoPID.d
+      );
+    anglePIDController.enableContinuousInput(-180, 180);
+    // anglePIDController.setTolerance(0.1);
 
-        addRequirements(subsystem);
-    }
+    addRequirements(subsystem);
+  }
 
-    @Override
-    public void initialize() {
+  @Override
+  public void initialize() {}
 
-    }
+  @Override
+  public void execute() {
+    double outPut = anglePIDController.calculate(
+      swerve.getHeading().getRadians(),
+      Math.toRadians(setPoint)
+    );
+    swerve.setChassisSpeeds(new ChassisSpeeds(0, 0, outPut));
+  }
 
-    @Override
-    public void execute() {
-        double outPut = anglePIDController.calculate(swerve.getHeading().getRadians(), Math.toRadians(setPoint));
-        swerve.setChassisSpeeds(new ChassisSpeeds(0, 0, outPut));
+  @Override
+  public void end(boolean interrupted) {
+    swerve.setChassisSpeeds(new ChassisSpeeds(0, 0, 0));
+  }
 
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        swerve.setChassisSpeeds(new ChassisSpeeds(0, 0, 0));
-    }
-
-    @Override
-    public boolean isFinished() {
-        return anglePIDController.atSetpoint();
-    }
+  @Override
+  public boolean isFinished() {
+    return anglePIDController.atSetpoint();
+  }
 }

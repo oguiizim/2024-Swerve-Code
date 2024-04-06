@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase {
 
   public void invert() {
     frontIntake.set(-0.8);
-    backIntake.set(-0.7);
+    backIntake.set(0.8);
   }
 
   public void stop() {

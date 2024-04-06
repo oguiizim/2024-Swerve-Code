@@ -16,6 +16,7 @@ import swervelib.parser.PIDFConfig;
 public final class Constants {
 
   public static final class Dimensoes {
+
     // Tempo de loop (sparkMax + normal = 130ms)
     public static final double LOOP_TIME = 0.13;
     // Massa do robô
@@ -26,7 +27,9 @@ public final class Constants {
     private static final double yMass = 0;
     private static final double zMass = .08;
     // Centro de massa do chassi
-    public static final Matter CHASSIS = new Matter(new Translation3d(xMass, yMass, (zMass)), ROBOT_MASS);
+    public static final Matter CHASSIS = new Matter(
+        new Translation3d(xMass, yMass, (zMass)),
+        ROBOT_MASS);
 
     // Máxima aceleração e velocidade
     public static final double MAX_ACCE_AUTO = 4.5;
@@ -34,7 +37,8 @@ public final class Constants {
 
     // Diâmetro da roda do módulo
     public static final double wheelDiameterInMeters = Units.inchesToMeters(4);
-    public static final double coletorDiameterInMeters = Units.inchesToMeters(2);
+    public static final double coletorDiameterInMeters = Units.inchesToMeters(
+        2);
 
     // Redução para motor de acionamento e ângulo
     public static final double driveGearRatio = 6.18;
@@ -44,42 +48,36 @@ public final class Constants {
     public static final double pulsePerRotation = 1;
 
     // Fatores de conversão para motores de acionamento e ângulo
-    public static final double driveConversion = SwerveMath.calculateMetersPerRotation(wheelDiameterInMeters,
-        driveGearRatio, pulsePerRotation);
-    public static final double angleConversion = SwerveMath.calculateDegreesPerSteeringRotation(angleGearRatio,
+    public static final double driveConversion = SwerveMath.calculateMetersPerRotation(
+        wheelDiameterInMeters,
+        driveGearRatio,
+        pulsePerRotation);
+    public static final double angleConversion = SwerveMath.calculateDegreesPerSteeringRotation(
+        angleGearRatio,
         pulsePerRotation);
   }
 
   public static final class PID {
+
     // PID para frente e para trás
     public static final PIDFConfig xAutoPID = new PIDFConfig(1.52, 0, 0);
     // PID para esquerda e direita
     public static final PIDFConfig yAutoPID = new PIDFConfig(1.52, 0, 0);
     // PID de rotação
-    public static final PIDFConfig angleAutoPID = new PIDFConfig(2.3, 0, 0);
+    public static final PIDFConfig angleAutoPID = new PIDFConfig(10, 0.5, 0);
     // PID de translação do autônomo
-    public static double translationP = 0.0;
+    public static double translationP = 9;
     public static double translationI = 0.0;
     public static double translationD = 0.0;
 
     // PID de angulação do Lançador
-    public static double kP = 1;
-    public static double kI = 0;
-    public static double kD = 0;
-  }
-
-  public static final class Motors {
-    // public static final int coletor1 = 9;
-    // public static final int coletor2 = 10;
-
-    // public static final int lancador1 = 11;
-    // public static final int lancador2 = 12;
-    // public static final int lancador3 = 13;
-
-    // public static final int gancho = 14;
+    public static double kP = 1.45;
+    public static double kI = 0.0;
+    public static double kD = 0.0;
   }
 
   public static final class Controle {
+
     public static final int xboxControle = 0;
     public static final int controle2 = 1;
 
@@ -105,6 +103,7 @@ public final class Constants {
   }
 
   public static final class Tracao {
+
     public static final boolean fieldRelative = true;
     public static final boolean isOpenLoop = false;
     // true para correção de aceleração
@@ -115,7 +114,7 @@ public final class Constants {
 
     public static final double TURN_CONSTANT = 0.75;
 
-    public static final double MAX_SPEED = 4.5;
+    public static final double MAX_SPEED = 12;
 
     public static final double dt = 0.02;
 
@@ -124,6 +123,7 @@ public final class Constants {
 
   // Classe que guarda os nomes das trajetórias
   public static final class Trajetoria {
+
     public static final boolean ALIANCA = true; // Caso a aliança seja azul use false, se for vermelha use true
     public static final String NOME_TRAJETORIA = "Principal";
     public static final String NOME_TRAJETORIA2 = "New Path2";

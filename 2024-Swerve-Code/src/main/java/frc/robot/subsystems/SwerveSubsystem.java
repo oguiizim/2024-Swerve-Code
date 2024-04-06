@@ -13,11 +13,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Dimensoes;
-import frc.robot.Constants.PID;
 import frc.robot.Constants.Tracao;
 import frc.robot.commands.Auto.ConfigAuto;
 import swervelib.SwerveController;
@@ -62,19 +60,6 @@ public class SwerveSubsystem extends SubsystemBase {
     // Dentro da função periódica atualizamos nossa odometria
     swerveDrive.updateOdometry();
 
-    double pAuto = SmartDashboard.getNumber("P Gain Auto", PID.translationP);
-    double iAuto = SmartDashboard.getNumber("I Gain Auto", PID.translationI);
-    double dAuto = SmartDashboard.getNumber("D Gain Auto", PID.translationD);
-
-    if (pAuto != PID.translationP) {
-      PID.translationP = pAuto;
-    }
-    if(iAuto != PID.translationI){
-      PID.translationI = iAuto;
-    }
-    if(dAuto != PID.translationD){
-      PID.translationD = dAuto;
-    }
   }
 
   public Measure<Distance> distanceToTarget(Translation2d target) {

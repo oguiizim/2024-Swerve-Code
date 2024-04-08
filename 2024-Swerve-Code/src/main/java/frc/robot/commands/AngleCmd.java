@@ -43,10 +43,9 @@ public class AngleCmd extends Command {
       angle.setTarget(0.765);
     } else if (control.getRawButton(Controle.kRB)) {
       angle.setTarget(0.61);
+    } else if (control.getRawButton(Controle.kLB)) {
+      angle.setTarget(0.775);
     }
-    // else if (control.getRawButton(Controle.kLB)) {
-    // angle.setTarget(0.781);
-    // }
   }
 
   @Override

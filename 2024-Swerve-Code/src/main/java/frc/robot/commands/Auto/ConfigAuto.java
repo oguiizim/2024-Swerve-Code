@@ -33,7 +33,7 @@ public class ConfigAuto {
             new PIDConstants(
                 9,
                 0.5,
-                0),
+                0.0),
             // Rotation PID constants
             12.0,
             // Max module speed, in m/s

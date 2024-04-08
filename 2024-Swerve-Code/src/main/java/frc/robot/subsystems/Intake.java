@@ -9,22 +9,25 @@ public class Intake extends SubsystemBase {
   CANSparkMax frontIntake, backIntake;
 
   public Intake() {
-    frontIntake = new CANSparkMax(14, MotorType.kBrushless);
-    backIntake = new CANSparkMax(15, MotorType.kBrushless);
+    frontIntake = new CANSparkMax(15, MotorType.kBrushless);
+    backIntake = new CANSparkMax(14, MotorType.kBrushless);
 
-    // backIntake.setInverted(true);
     backIntake.setInverted(true);
-    frontIntake.setInverted(true);
   }
 
   public void collect() {
     frontIntake.set(0.8);
-    backIntake.set(-0.8);
+    backIntake.set(0.9);
+  }
+
+  public void collectAuto() {
+    frontIntake.set(0.8);
+    backIntake.set(0.9);
   }
 
   public void invert() {
-    frontIntake.set(-0.8);
-    backIntake.set(0.8);
+    frontIntake.set(0.8);
+    backIntake.set(-0.8);
   }
 
   public void stop() {
@@ -33,5 +36,6 @@ public class Intake extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+  }
 }

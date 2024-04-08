@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 9.078526531904783,
-        "y": 0.38952770669479636
+        "x": 1.31,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.744394136475106,
-        "y": 0.5356005967053458
+        "x": 1.472998058688882,
+        "y": 3.963444415619555
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.82,
-        "y": 0.88
+        "x": 2.93,
+        "y": 3.85
       },
       "prevControl": {
-        "x": 7.115179624760199,
-        "y": 0.46125771530309256
+        "x": 1.2879723980088535,
+        "y": 3.786847910943747
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,11 +29,23 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0.4,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 4.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0,
+      "name": "collect",
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,7 +53,13 @@
             {
               "type": "named",
               "data": {
-                "name": "shoot1"
+                "name": "collect"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "collectConveyor"
               }
             }
           ]
@@ -57,13 +75,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Auto Mid",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

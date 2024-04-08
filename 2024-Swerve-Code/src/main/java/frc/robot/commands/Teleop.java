@@ -38,12 +38,11 @@ public class Teleop extends Command {
   XboxController controle1;
 
   public Teleop(
-    SwerveSubsystem swerve,
-    DoubleSupplier y,
-    DoubleSupplier x,
-    DoubleSupplier turn,
-    XboxController controle1
-  ) {
+      SwerveSubsystem swerve,
+      DoubleSupplier y,
+      DoubleSupplier x,
+      DoubleSupplier turn,
+      XboxController controle1) {
     // Aqui atribuimos as funções e subsistema
     this.y = y;
     this.x = x;
@@ -57,7 +56,8 @@ public class Teleop extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Abaixo calculamos os valores de saída a partir dos nossos inputs
   @Override
@@ -66,41 +66,39 @@ public class Teleop extends Command {
     double yVelocity = x.getAsDouble() * Tracao.multiplicadorTranslacionalX;
     double angVelocity = turn.getAsDouble() * Tracao.multiplicadorRotacional;
 
-    translation =
-      new Translation2d(
+    translation = new Translation2d(
         xVelocity * Tracao.MAX_SPEED,
-        yVelocity * Tracao.MAX_SPEED
-      );
+        yVelocity * Tracao.MAX_SPEED);
 
     omega = controller.config.maxAngularVelocity * angVelocity;
 
     if (controle1.getRawAxis(Controle.rightTrigger) != 0) {
       translation = new Translation2d(xVelocity * 0.45, yVelocity * 0.45);
     } else if (controle1.getRawAxis(Controle.leftTrigger) != 0) {
-      translation = new Translation2d(xVelocity * 1, yVelocity * 1);
+      translation = new Translation2d(xVelocity * 4, yVelocity *4);
     }
 
     // Caso essa função seja verdadeira a aceleração do robô será limitada
     if (Tracao.accelCorrection) {
-      translation =
-        SwerveMath.limitVelocity(
+      translation = SwerveMath.limitVelocity(
           translation,
           swerve.getFieldVelocity(),
           swerve.getPose(),
           Dimensoes.LOOP_TIME,
           Dimensoes.ROBOT_MASS,
           List.of(Dimensoes.CHASSIS),
-          swerve.getSwerveDriveConfiguration()
-        );
+          swerve.getSwerveDriveConfiguration());
     }
 
-    // Aqui temos nossa função definida dentro da classe de subsistema a qual comandara o swerve
+    // Aqui temos nossa função definida dentro da classe de subsistema a qual
+    // comandara o swerve
     swerve.drive(translation, omega, Tracao.fieldRelative);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

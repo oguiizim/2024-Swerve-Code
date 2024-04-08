@@ -5,10 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.PID;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -18,13 +16,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    SmartDashboard.putNumber("P Gain Shooter", PID.kP);
-    SmartDashboard.putNumber("I Gain Shooter", PID.kI);
-    SmartDashboard.putNumber("D Gain Shooter", PID.kD);
 
-    SmartDashboard.putNumber("P Gain Auto", PID.translationP);
-    SmartDashboard.putNumber("I Gain Auto", PID.translationI);
-    SmartDashboard.putNumber("D Gain Auto", PID.translationD);
   }
 
   @Override
@@ -65,7 +57,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    
   }
 
   @Override

@@ -24,7 +24,7 @@ public class ShooterCmd extends Command {
   @Override
   public void execute() {
     if (control.getRawButton(Controle.kA)) {
-      shooter.collectWithSensor();
+      shooter.collectWithSensor(0.25);
     } else {
       shooter.stopMotorConveyor();
     }

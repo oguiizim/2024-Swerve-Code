@@ -12,7 +12,7 @@ public class ShootSpeaker extends SequentialCommandGroup {
       Commands.runOnce(() -> shooter.setSpeed(0.65), shooter),
       new WaitCommand(2),
       Commands.runOnce(() -> shooter.setSpeedConveyor(1), shooter),
-      new WaitCommand(2),
+      new WaitCommand(1.5),
       Commands.runOnce(
         () -> {
           shooter.stopMotor();

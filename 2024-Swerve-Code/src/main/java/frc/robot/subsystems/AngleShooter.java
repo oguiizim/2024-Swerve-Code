@@ -91,23 +91,16 @@ public class AngleShooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // double[] get = LimelightHelpers.getTargetPose_RobotSpace("");
-    // double tz = get[2];
-
     double outPut = anglePidController.calculate(getPosition());
 
     outPut = MathUtil.clamp(outPut, -0.4, 0.4);
 
     setSpeed(outPut);
 
-
-    // double id = LimelightHelpers.getFiducialID("");
-
     SmartDashboard.putNumber("Position", getPosition() * 360);
     SmartDashboard.putNumber("Angle For Shoot", getAngle());
     SmartDashboard.putNumber("Setpoint", anglePidController.getSetpoint() * 360);
     SmartDashboard.putNumber("tz", getTz());
-    // SmartDashboard.putNumber("Id ", id);
     SmartDashboard.putNumber("Velocity Angle", outPut);
   }
 }

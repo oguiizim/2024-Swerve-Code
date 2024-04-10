@@ -127,7 +127,7 @@ public final class Constants {
     public static final boolean ALIANCA = true; // Caso a aliança seja azul use false, se for vermelha use true
     // Auto Speaker: 4 notes
     public static final String NOME_TRAJETORIA = "Auto Mid";
-    // Auto Source: 1 note
+    // Auto Source: 2 notes
     public static final String NOME_TRAJETORIA2 = "Auto Source Mid";
     // Auto Amp: 2 notes
     public static final String NOME_TRAJETORIA3 = "Auto Amp";

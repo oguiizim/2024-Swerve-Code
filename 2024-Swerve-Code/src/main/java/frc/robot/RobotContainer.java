@@ -32,6 +32,7 @@ import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.Teleop;
 import frc.robot.commands.Auto.AmpAuto.aShoot1;
+import frc.robot.commands.Auto.AmpAuto.aShoot2;
 import frc.robot.commands.Auto.MidAuto.mShoot1;
 import frc.robot.commands.Auto.MidAuto.mShoot2;
 import frc.robot.commands.Auto.MidAuto.mShoot3;
@@ -79,6 +80,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("aShoot1", new aShoot1(subShooter));
 
+    NamedCommands.registerCommand("aShoot2", new aShoot2(subShooter));
+
     NamedCommands.registerCommand("collectConveyor",
         Commands.run(() -> subShooter.collectWithSensor(0.25), subShooter));
 
@@ -105,6 +108,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("angle4", Commands.runOnce(() -> subAngle.setTarget(0.65), subAngle));
 
     NamedCommands.registerCommand("angle5", Commands.runOnce(() -> subAngle.setTarget(0.777), subAngle));
+
+    NamedCommands.registerCommand("angle6", Commands.runOnce(() -> subAngle.setTarget(0.65), subAngle));
 
     NamedCommands.registerCommand("return0", Commands.runOnce(() -> subAngle.setTarget(0.1), subAngle));
 

@@ -4,11 +4,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
-import frc.robot.Constants.Controle;
-import frc.robot.Constants.PID;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class GyroLimelight extends Command {
@@ -25,7 +22,7 @@ public class GyroLimelight extends Command {
     swerve = subsystem;
     this.setPoint = setPoint;
     anglePIDController = new PIDController(
-        10,
+        20,
         0,
         0);
     anglePIDController.enableContinuousInput(-54, 54);
@@ -40,13 +37,8 @@ public class GyroLimelight extends Command {
   @Override
   public void execute() {
 
-    // NetworkTableInstance.getDefault().getTable("").getEntry("id").getDouble(<default
-    // value>);
-    double id = NetworkTableInstance.getDefault().getTable("").getEntry("tid").getDouble(0);
-    // if (id == 4) {
-
-    // }
-
+    // double id =
+    // NetworkTableInstance.getDefault().getTable("").getEntry("tid").getDouble(0);
     double outPut = anglePIDController.calculate(
         Math.toRadians(LimelightHelpers.getTX("")),
         Math.toRadians(setPoint));
@@ -62,14 +54,9 @@ public class GyroLimelight extends Command {
   @Override
   public boolean isFinished() {
 
-    double tx = LimelightHelpers.getTX("");
-    if (tx > -1 && tx < 1) {
-      return true;
-    } else if (control.getRawButton(Controle.kY)) {
+    if (control.getXButtonReleased()) {
       return true;
     }
-
     return false;
-
   }
 }

@@ -114,7 +114,7 @@ public final class Constants {
 
     public static final double TURN_CONSTANT = 0.75;
 
-    public static final double MAX_SPEED = 12;
+    public static final double MAX_SPEED = 16;
 
     public static final double dt = 0.02;
 
@@ -125,8 +125,11 @@ public final class Constants {
   public static final class Trajetoria {
 
     public static final boolean ALIANCA = true; // Caso a aliança seja azul use false, se for vermelha use true
-    public static final String NOME_TRAJETORIA = "Principal";
-    public static final String NOME_TRAJETORIA2 = "New Path2";
-    public static final String NOME_TRAJETORIA3 = "New Path3";
+    // Auto Speaker: 4 notes
+    public static final String NOME_TRAJETORIA = "Auto Mid";
+    // Auto Source: 1 note
+    public static final String NOME_TRAJETORIA2 = "Auto Source Mid";
+    // Auto Amp: 2 notes
+    public static final String NOME_TRAJETORIA3 = "Auto Amp";
   }
 }

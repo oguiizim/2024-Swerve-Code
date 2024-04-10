@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void collectWithSensor(double speed) {
-    if (getProximity() > 110) {
+    if (getProximity() > 150) {
       conveyor.stopMotor();
     } else {
       conveyor.set(speed);

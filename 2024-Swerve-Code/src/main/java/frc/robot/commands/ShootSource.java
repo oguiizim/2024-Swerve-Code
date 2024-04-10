@@ -9,7 +9,7 @@ public class ShootSource extends SequentialCommandGroup {
 
   public ShootSource(Shooter shooter) {
     addCommands(
-      Commands.runOnce(() -> shooter.setSpeed(0.8), shooter),
+      Commands.runOnce(() -> shooter.setSpeed(0.55), shooter),
       new WaitCommand(2.5),
       Commands.runOnce(() -> shooter.setSpeedConveyor(1), shooter),
       new WaitCommand(2),

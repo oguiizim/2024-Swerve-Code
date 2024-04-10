@@ -4,8 +4,11 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,16 +22,21 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Controle;
+import frc.robot.Constants.Trajetoria;
 import frc.robot.commands.AngleCmd;
 import frc.robot.commands.Gyro;
+import frc.robot.commands.GyroLimelight;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.ShootSource;
 import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.Teleop;
+import frc.robot.commands.Auto.AmpAuto.aShoot1;
 import frc.robot.commands.Auto.MidAuto.mShoot1;
 import frc.robot.commands.Auto.MidAuto.mShoot2;
 import frc.robot.commands.Auto.MidAuto.mShoot3;
+import frc.robot.commands.Auto.SourceAuto.sShoot1;
+import frc.robot.commands.Auto.SourceAuto.sShoot2;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -65,6 +73,12 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("mShoot3", new mShoot3(subShooter));
 
+    NamedCommands.registerCommand("sShoot1", new sShoot1(subShooter));
+
+    NamedCommands.registerCommand("sShoot2", new sShoot2(subShooter));
+
+    NamedCommands.registerCommand("aShoot1", new aShoot1(subShooter));
+
     NamedCommands.registerCommand("collectConveyor",
         Commands.run(() -> subShooter.collectWithSensor(0.25), subShooter));
 
@@ -89,6 +103,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("angle3", Commands.runOnce(() -> subAngle.setTarget(0.77), subAngle));
 
     NamedCommands.registerCommand("angle4", Commands.runOnce(() -> subAngle.setTarget(0.65), subAngle));
+
+    NamedCommands.registerCommand("angle5", Commands.runOnce(() -> subAngle.setTarget(0.777), subAngle));
+
+    NamedCommands.registerCommand("return0", Commands.runOnce(() -> subAngle.setTarget(0.1), subAngle));
 
     NamedCommands.registerCommand("gyro0", new Gyro(swerve, 0));
 
@@ -127,6 +145,9 @@ public class RobotContainer {
         operatorControl,
         XboxController.Button.kRightBumper.value)
         .onTrue(new ShootSource(subShooter));
+
+    new JoystickButton(driverControl, XboxController.Button.kX.value).onTrue(new GyroLimelight(swerve, 0));
+
   }
 
   private boolean getRight() {
@@ -146,6 +167,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     swerve.zeroGyro();
     return autoChooser.getSelected();
+
+    // return swerve.getAutonomousCommand(Trajetoria.NOME_TRAJETORIA2, true, true);
   }
 
   public void setMotorBrake(boolean brake) {

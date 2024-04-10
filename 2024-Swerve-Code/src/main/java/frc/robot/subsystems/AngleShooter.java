@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -99,10 +100,14 @@ public class AngleShooter extends SubsystemBase {
 
     setSpeed(outPut);
 
+
+    // double id = LimelightHelpers.getFiducialID("");
+
     SmartDashboard.putNumber("Position", getPosition() * 360);
     SmartDashboard.putNumber("Angle For Shoot", getAngle());
     SmartDashboard.putNumber("Setpoint", anglePidController.getSetpoint() * 360);
     SmartDashboard.putNumber("tz", getTz());
+    // SmartDashboard.putNumber("Id ", id);
     SmartDashboard.putNumber("Velocity Angle", outPut);
   }
 }

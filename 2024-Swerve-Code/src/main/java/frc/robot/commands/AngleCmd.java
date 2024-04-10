@@ -26,7 +26,7 @@ public class AngleCmd extends Command {
   @Override
   public void execute() {
     if (control.getRawButton(Controle.kB)) {
-      angle.setTarget(0.95);
+      angle.setTarget(0.985);
     } else if (control.getRawButton(Controle.kY)) {
       angle.setTarget(0.1);
     } else if (control.getRawButton(Controle.kX)) {
@@ -42,9 +42,7 @@ public class AngleCmd extends Command {
     } else if (control.getPOV() == 180) { // Podium
       angle.setTarget(0.765);
     } else if (control.getRawButton(Controle.kRB)) {
-      angle.setTarget(0.61);
-    } else if (control.getRawButton(Controle.kLB)) {
-      angle.setTarget(0.775);
+      angle.setTarget(0.735);
     }
   }
 

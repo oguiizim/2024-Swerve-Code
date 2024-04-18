@@ -16,14 +16,14 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     shooter1 = new CANSparkMax(9, MotorType.kBrushless);
-    shooter2 = new CANSparkMax(10, MotorType.kBrushless);
-    conveyor = new CANSparkMax(11, MotorType.kBrushless);
+    shooter2 = new CANSparkMax(11, MotorType.kBrushless);
+    conveyor = new CANSparkMax(10, MotorType.kBrushless);
 
-    shooter2.setInverted(false);
+    shooter2.setInverted(true);
     shooter1.setInverted(true);
 
     conveyor.setInverted(true);
-    shooter2.follow(shooter1);
+    // shooter2.follow(shooter1);
   }
 
   public double getProximity() {
@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void collectWithSensor(double speed) {
-    if (getProximity() > 150) {
+    if (getProximity() > 120) {
       conveyor.stopMotor();
     } else {
       conveyor.set(speed);
@@ -40,10 +40,12 @@ public class Shooter extends SubsystemBase {
 
   public void setSpeed(double speed) {
     shooter1.set(speed);
+    shooter2.set(speed);
   }
 
   public void stopMotor() {
     shooter1.stopMotor();
+    shooter2.stopMotor();
   }
 
   public void setSpeedConveyor(double speed) {
@@ -56,6 +58,7 @@ public class Shooter extends SubsystemBase {
 
   public void stopAll() {
     shooter1.stopMotor();
+    shooter2.stopMotor();
     conveyor.stopMotor();
   }
 

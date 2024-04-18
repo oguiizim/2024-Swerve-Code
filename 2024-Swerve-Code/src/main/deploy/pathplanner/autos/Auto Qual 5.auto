@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7328954159687686,
+      "y": 6.806996674491571
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "gyro50"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "putAngle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "mShoot2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "gyro0"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Path"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

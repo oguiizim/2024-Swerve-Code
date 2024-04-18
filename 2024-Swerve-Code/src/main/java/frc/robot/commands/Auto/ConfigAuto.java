@@ -24,18 +24,18 @@ public class ConfigAuto {
     AutoBuilder.configureHolonomic(
         swerve::getPose, // Robot pose supplier
         swerve::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-        swerve::getRobotVelocity, // ChassisSpeeds supplier. MxUST BE ROBOT RELATIVE
+        swerve::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         swerve::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
             // Constants class
-            new PIDConstants(14.5, 0, 0),
+            new PIDConstants(14.5, 2, 0),
             // Translation PID constants
             new PIDConstants(
                 9,
                 0.5,
                 0.0),
             // Rotation PID constants
-            12.0,
+            16.0,
             // Max module speed, in m/s
             swerve.getSwerveDriveConfiguration().getDriveBaseRadiusMeters(),
             // Drive base radius in meters. Distance from robot center to furthest module.

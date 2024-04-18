@@ -25,25 +25,25 @@ public class AngleCmd extends Command {
 
   @Override
   public void execute() {
-    if (control.getRawButton(Controle.kB)) {
-      angle.setTarget(0.985);
-    } else if (control.getRawButton(Controle.kY)) {
+    if (control.getRawButton(Controle.kY)) {
       angle.setTarget(0.1);
     } else if (control.getRawButton(Controle.kX)) {
       angle.setTarget(angle.getAngle());
     } else if (control.getRawButton(Controle.kA)) {
-      angle.setTarget(0.50);
+      angle.setTarget(0.53);
     } else if (control.getPOV() == 0) { // Colado no speaker
-      angle.setTarget(0.65);
-    } else if (control.getPOV() == 90) { // Colado na parede
-      angle.setTarget(0.806);
-    } else if (control.getPOV() == 270) { // Pé do palco traseiro
-      angle.setTarget(0.802);
-    } else if (control.getPOV() == 180) { // Podium
-      angle.setTarget(0.765);
-    } else if (control.getRawButton(Controle.kRB)) {
-      angle.setTarget(0.735);
+      angle.setTarget(0.73);
+      // angle.setTarget(0.84);
     }
+    // else if (control.getPOV() == 90) { // Colado na parede
+    // angle.setTarget(0.806);
+    // } else if (control.getPOV() == 270) { // Pé do palco traseiro
+    // angle.setTarget(0.802);
+    // } else if (control.getPOV() == 180) { // Podium
+    // angle.setTarget(0.765);
+    // } else if (control.getRawButton(Controle.kRB)) {
+    // angle.setTarget(0.735);
+    // }
   }
 
   @Override

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.58,
-        "y": 3.57
+        "x": 1.0,
+        "y": 4.17
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.037813233396337,
-        "y": 3.5544403235900184
+        "x": 1.944604688734882,
+        "y": 2.154194117854427
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.97,
-        "y": 4.42
+        "x": 8.28973292584782,
+        "y": 0.7790554133895939
       },
       "prevControl": {
-        "x": 1.7943584167120892,
-        "y": 4.42973819266737
+        "x": 6.507643667719127,
+        "y": 0.6329825233790457
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,31 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "collect"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "collectConveyor"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
@@ -67,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Auto Source",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

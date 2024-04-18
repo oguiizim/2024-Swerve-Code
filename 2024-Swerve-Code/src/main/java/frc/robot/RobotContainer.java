@@ -4,12 +4,10 @@
 
 package frc.robot;
 
-import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
-import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.StadiaController.Button;
@@ -46,16 +44,13 @@ import java.io.File;
 
 public class RobotContainer {
 
-  static final SwerveSubsystem swerve = new SwerveSubsystem(
-      new File(Filesystem.getDeployDirectory(), "swerve"));
+  static final SwerveSubsystem swerve = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
   public static final Intake subIntake = new Intake();
   public static final AngleShooter subAngle = new AngleShooter();
   public static final Shooter subShooter = new Shooter();
 
-  public static final XboxController driverControl = new XboxController(
-      Controle.xboxControle);
-  public static final Joystick operatorControl = new Joystick(
-      Controle.controle2);
+  public static final XboxController driverControl = new XboxController(Controle.xboxControle);
+  public static final Joystick operatorControl = new Joystick(Controle.controle2);
 
   private final SendableChooser<Command> autoChooser;
 
@@ -69,56 +64,41 @@ public class RobotContainer {
             driverControl));
 
     NamedCommands.registerCommand("mShoot1", new mShoot1(subShooter, subAngle));
-
     NamedCommands.registerCommand("mShoot2", new mShoot2(subShooter));
-
     NamedCommands.registerCommand("mShoot3", new mShoot3(subShooter));
-
     NamedCommands.registerCommand("sShoot1", new sShoot1(subShooter));
-
     NamedCommands.registerCommand("sShoot2", new sShoot2(subShooter));
-
     NamedCommands.registerCommand("aShoot1", new aShoot1(subShooter));
-
     NamedCommands.registerCommand("aShoot2", new aShoot2(subShooter));
 
     NamedCommands.registerCommand("collectConveyor",
         Commands.run(() -> subShooter.collectWithSensor(0.25), subShooter));
-
     NamedCommands.registerCommand("collect", Commands.runOnce(() -> {
       subAngle.setTarget(0.5);
       subIntake.collectAuto();
     }, subAngle, subIntake));
-
     NamedCommands.registerCommand("stopIntake", Commands.runOnce(() -> {
       subIntake.stop();
       subShooter.stopMotorConveyor();
     }, subIntake, subShooter));
-
     NamedCommands.registerCommand("putAngle", Commands.runOnce(
         () -> subAngle.setTarget(subAngle.getAngle()),
         subAngle));
-
-    NamedCommands.registerCommand("angle1", Commands.runOnce(() -> subAngle.setTarget(0.72), subAngle));
-
-    NamedCommands.registerCommand("angle2", Commands.runOnce(() -> subAngle.setTarget(0.76), subAngle));
-
-    NamedCommands.registerCommand("angle3", Commands.runOnce(() -> subAngle.setTarget(0.77), subAngle));
-
-    NamedCommands.registerCommand("angle4", Commands.runOnce(() -> subAngle.setTarget(0.65), subAngle));
-
+    NamedCommands.registerCommand("angle1", Commands.runOnce(() -> subAngle.setTarget(0.8), subAngle));
+    NamedCommands.registerCommand("angle2", Commands.runOnce(() -> subAngle.setTarget(0.82), subAngle));
+    NamedCommands.registerCommand("angle3", Commands.runOnce(() -> subAngle.setTarget(0.83), subAngle));
+    NamedCommands.registerCommand("angle4", Commands.runOnce(() -> subAngle.setTarget(0.740), subAngle));
     NamedCommands.registerCommand("angle5", Commands.runOnce(() -> subAngle.setTarget(0.777), subAngle));
-
-    NamedCommands.registerCommand("angle6", Commands.runOnce(() -> subAngle.setTarget(0.65), subAngle));
-
-    NamedCommands.registerCommand("return0", Commands.runOnce(() -> subAngle.setTarget(0.1), subAngle));
+    NamedCommands.registerCommand("angle6", Commands.runOnce(() -> subAngle.setTarget(0.779), subAngle));
+    NamedCommands.registerCommand("return0", Commands.runOnce(() -> subAngle.setTarget(0.10), subAngle));
 
     NamedCommands.registerCommand("gyro0", new Gyro(swerve, 0));
-
-    autoChooser = AutoBuilder.buildAutoChooser();
+    NamedCommands.registerCommand("gyro50", new Gyro(swerve, -50));
 
     subShooter.setDefaultCommand(new ShooterCmd(subShooter, operatorControl));
     subAngle.setDefaultCommand(new AngleCmd(subAngle, operatorControl));
+
+    autoChooser = AutoBuilder.buildAutoChooser();
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -130,7 +110,9 @@ public class RobotContainer {
         .onTrue(new InstantCommand(swerve::zeroGyro));
 
     new Trigger(this::getRight).onTrue(new ShootSpeaker(subShooter));
-    new Trigger(this::getLeft).onTrue(new ShootAmp(subShooter));
+    // new Trigger(this::getLeft).onTrue(new ShootAmp(subShooter));
+
+    new JoystickButton(operatorControl, XboxController.Button.kB.value).onTrue(new ShootAmp(subShooter, subAngle));
 
     new JoystickButton(operatorControl, XboxController.Button.kA.value)
         .whileTrue(
@@ -149,10 +131,9 @@ public class RobotContainer {
     new JoystickButton(
         operatorControl,
         XboxController.Button.kRightBumper.value)
-        .onTrue(new ShootSource(subShooter));
+        .onTrue(new ShootSource(subShooter, subAngle));
 
     new JoystickButton(driverControl, XboxController.Button.kX.value).onTrue(new GyroLimelight(swerve, 0));
-
   }
 
   private boolean getRight() {
@@ -160,20 +141,18 @@ public class RobotContainer {
       return true;
     }
     return false;
-  }
 
-  private boolean getLeft() {
-    if (operatorControl.getRawAxis(Controle.leftTrigger) != 0) {
-      return true;
-    }
-    return false;
   }
 
   public Command getAutonomousCommand() {
     swerve.zeroGyro();
-    return autoChooser.getSelected();
+    // return autoChooser.getSelected();
 
-    // return swerve.getAutonomousCommand(Trajetoria.NOME_TRAJETORIA2, true, true);
+    // Auto Mid com 4 notes
+    // return swerve.getAutonomousCommand(Trajetoria.NOME_TRAJETORIA, true, true);
+
+    // Auto Mid com 3 notes
+    return swerve.getAutonomousCommand(Trajetoria.NOME_TRAJETORIA5, true, true);
   }
 
   public void setMotorBrake(boolean brake) {

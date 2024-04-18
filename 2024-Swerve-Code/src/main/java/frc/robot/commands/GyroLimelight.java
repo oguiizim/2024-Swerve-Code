@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
@@ -37,8 +36,6 @@ public class GyroLimelight extends Command {
   @Override
   public void execute() {
 
-    // double id =
-    // NetworkTableInstance.getDefault().getTable("").getEntry("tid").getDouble(0);
     double outPut = anglePIDController.calculate(
         Math.toRadians(LimelightHelpers.getTX("")),
         Math.toRadians(setPoint));

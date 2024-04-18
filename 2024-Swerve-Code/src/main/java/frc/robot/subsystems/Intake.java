@@ -16,12 +16,12 @@ public class Intake extends SubsystemBase {
   }
 
   public void collect() {
-    frontIntake.set(0.8);
+    frontIntake.set(0.9);
     backIntake.set(0.9);
   }
 
   public void collectAuto() {
-    frontIntake.set(0.8);
+    frontIntake.set(0.9);
     backIntake.set(0.9);
   }
 

@@ -10,9 +10,6 @@ import swervelib.math.Matter;
 import swervelib.math.SwerveMath;
 import swervelib.parser.PIDFConfig;
 
-/**
- * Classe de constantes
- */
 public final class Constants {
 
   public static final class Dimensoes {
@@ -65,11 +62,6 @@ public final class Constants {
     public static final PIDFConfig yAutoPID = new PIDFConfig(1.52, 0, 0);
     // PID de rotação
     public static final PIDFConfig angleAutoPID = new PIDFConfig(10, 0.5, 0);
-    // PID de translação do autônomo
-    public static double translationP = 9;
-    public static double translationI = 0.0;
-    public static double translationD = 0.0;
-
     // PID de angulação do Lançador
     public static double kP = 1.45;
     public static double kI = 0.0;
@@ -128,8 +120,12 @@ public final class Constants {
     // Auto Speaker: 4 notes
     public static final String NOME_TRAJETORIA = "Auto Mid";
     // Auto Source: 2 notes
-    public static final String NOME_TRAJETORIA2 = "Auto Source Mid";
-    // Auto Amp: 2 notes
+    public static final String NOME_TRAJETORIA2 = "Auto Source";
+    // Auto Amp: 2 notes and collect 1 note
     public static final String NOME_TRAJETORIA3 = "Auto Amp";
+    // Auto Mid SLow: Em tese faz 3 notes
+    public static final String NOME_TRAJETORIA4 = "Auto Mid Slow";
+
+    public static final String NOME_TRAJETORIA5 = "Auto Qual 5";
   }
 }

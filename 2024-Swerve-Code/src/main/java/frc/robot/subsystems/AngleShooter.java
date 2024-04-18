@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,23 +24,26 @@ public class AngleShooter extends SubsystemBase {
     pidEncoder = new DutyCycleEncoder(0);
     angle1 = new CANSparkMax(12, MotorType.kBrushless);
     angle2 = new CANSparkMax(13, MotorType.kBrushless);
-    pidEncoder.setPositionOffset(0.51);
-    pidEncoder.setDutyCycleRange(0.35, 0.90);
 
-    interpolating.put(1.17, 0.65);
-    interpolating.put(1.39, 0.67);
-    interpolating.put(1.59, 0.69);
-    interpolating.put(1.81, 0.72);
-    interpolating.put(2.04, 0.745);
-    interpolating.put(2.24, 0.74);
-    interpolating.put(2.46, 0.750);
-    interpolating.put(2.68, 0.755);
-    interpolating.put(2.91, 0.760);
-    interpolating.put(3.16, 0.765);
-    interpolating.put(3.34, 0.772);
-    interpolating.put(3.57, 0.773);
-    interpolating.put(3.81, 0.774);
-    interpolating.put(4.01, 0.775);
+    angle2.setInverted(false);
+    angle1.setInverted(false);
+    pidEncoder.setPositionOffset(0.51);
+    pidEncoder.setDutyCycleRange(0.05, 0.65);
+
+    interpolating.put(0.98, 0.73);
+    interpolating.put(1.18, 0.75);
+    interpolating.put(1.38, 0.76);
+    interpolating.put(1.58, 0.772);
+    interpolating.put(1.78, 0.775);
+    interpolating.put(1.98, 0.789);
+    interpolating.put(2.18, 0.795);
+    interpolating.put(2.38, 0.81);
+    interpolating.put(2.58, 0.814);
+    interpolating.put(2.78, 0.818);
+    // interpolating.put(3.34, 0.772);
+    // interpolating.put(3.57, 0.773);
+    // interpolating.put(3.81, 0.774);
+    // interpolating.put(4.01, 0.775);
 
   }
 
@@ -97,10 +99,10 @@ public class AngleShooter extends SubsystemBase {
 
     setSpeed(outPut);
 
-    SmartDashboard.putNumber("Position", getPosition() * 360);
+    SmartDashboard.putNumber("Position", getPosition());
     SmartDashboard.putNumber("Angle For Shoot", getAngle());
     SmartDashboard.putNumber("Setpoint", anglePidController.getSetpoint() * 360);
-    SmartDashboard.putNumber("tz", getTz());
+    SmartDashboard.putNumber("Tz", getTz());
     SmartDashboard.putNumber("Velocity Angle", outPut);
   }
 }

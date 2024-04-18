@@ -8,8 +8,8 @@ import frc.robot.subsystems.Shooter;
 public class mShoot2 extends SequentialCommandGroup {
      public mShoot2(Shooter shooter) {
           addCommands(
-                    Commands.runOnce(() -> shooter.setSpeed(0.65), shooter),
-                    new WaitCommand(1.2),
+                    Commands.runOnce(() -> shooter.setSpeed(0.50), shooter),
+                    new WaitCommand(1.8),
                     Commands.runOnce(() -> shooter.setSpeedConveyor(0.8), shooter),
                     new WaitCommand(1),
                     Commands.runOnce(() -> shooter.stopAll(), shooter),

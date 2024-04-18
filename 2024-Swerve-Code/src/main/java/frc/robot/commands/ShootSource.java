@@ -11,7 +11,7 @@ public class ShootSource extends SequentialCommandGroup {
   public ShootSource(Shooter shooter, AngleShooter angle) {
     addCommands(
         Commands.runOnce(() -> angle.setTarget(0.73), angle),
-        Commands.runOnce(() -> shooter.setSpeed(0.30), shooter),
+        Commands.runOnce(() -> shooter.setSpeed(0.50), shooter),
         new WaitCommand(1.5),
       Commands.runOnce(() -> shooter.setSpeedConveyor(1), shooter),
         new WaitCommand(1.5),

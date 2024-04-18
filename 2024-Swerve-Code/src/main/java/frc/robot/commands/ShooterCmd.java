@@ -1,17 +1,13 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.Controle;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCmd extends Command {
 
   Shooter shooter;
-  Joystick control;
 
-  public ShooterCmd(Shooter subsystem, Joystick control) {
-    this.control = control;
+  public ShooterCmd(Shooter subsystem) {
     shooter = subsystem;
 
     addRequirements(subsystem);
@@ -23,16 +19,11 @@ public class ShooterCmd extends Command {
 
   @Override
   public void execute() {
-    if (control.getRawButton(Controle.kA)) {
-      shooter.collectWithSensor(0.27);
-    } else {
-      shooter.stopMotorConveyor();
-    }
+    shooter.collectWithSensor(0.27);
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.stopMotor();
     shooter.stopMotorConveyor();
   }
 

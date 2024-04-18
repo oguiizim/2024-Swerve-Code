@@ -7,7 +7,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.StadiaController.Button;
@@ -21,7 +20,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Controle;
 import frc.robot.Constants.Trajetoria;
-import frc.robot.commands.AngleCmd;
 import frc.robot.commands.Gyro;
 import frc.robot.commands.GyroLimelight;
 import frc.robot.commands.ShootAmp;
@@ -29,6 +27,9 @@ import frc.robot.commands.ShootSource;
 import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.Teleop;
+import frc.robot.commands.AngleCommand.Angle;
+import frc.robot.commands.AngleCommand.Return0;
+import frc.robot.commands.AngleCommand.Subwoofer;
 import frc.robot.commands.Auto.AmpAuto.aShoot1;
 import frc.robot.commands.Auto.AmpAuto.aShoot2;
 import frc.robot.commands.Auto.MidAuto.mShoot1;
@@ -55,13 +56,17 @@ public class RobotContainer {
   private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
-    swerve.setDefaultCommand(
+
+    swerve  .setDefaultCommand(
         new Teleop(
             swerve,
             () -> -MathUtil.applyDeadband(driverControl.getLeftY(), Controle.DEADBAND),
             () -> -MathUtil.applyDeadband(driverControl.getLeftX(), Controle.DEADBAND),
             () -> -MathUtil.applyDeadband(driverControl.getRightX(), Controle.DEADBAND),
             driverControl));
+
+    // subShooter.setDefaultCommand(new ShooterCmd(subShooter, operatorControl));
+    // subAngle.setDefaultCommand(new AngleCmd(subAngle, operatorControl));
 
     NamedCommands.registerCommand("mShoot1", new mShoot1(subShooter, subAngle));
     NamedCommands.registerCommand("mShoot2", new mShoot2(subShooter));
@@ -95,9 +100,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("gyro0", new Gyro(swerve, 0));
     NamedCommands.registerCommand("gyro50", new Gyro(swerve, -50));
 
-    subShooter.setDefaultCommand(new ShooterCmd(subShooter, operatorControl));
-    subAngle.setDefaultCommand(new AngleCmd(subAngle, operatorControl));
-
     autoChooser = AutoBuilder.buildAutoChooser();
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -114,12 +116,26 @@ public class RobotContainer {
 
     new JoystickButton(operatorControl, XboxController.Button.kB.value).onTrue(new ShootAmp(subShooter, subAngle));
 
+    new JoystickButton(operatorControl, XboxController.Button.kY.value).onTrue(new Return0(subAngle));
+
+    new JoystickButton(operatorControl, XboxController.Button.kX.value).onTrue(new Angle(subAngle));
+
+    new JoystickButton(operatorControl, XboxController.Button.kA.value).onTrue(new ShooterCmd(subShooter))
+        .onFalse(Commands.runOnce(() -> subShooter.stopMotorConveyor(), subShooter));
+
     new JoystickButton(operatorControl, XboxController.Button.kA.value)
         .whileTrue(
             Commands.startEnd(
-                () -> subIntake.collect(),
-                () -> subIntake.stop(),
-                subIntake));
+                () -> {
+                  subIntake.collect();
+                  subAngle.setTarget(0.53);
+                },
+                () -> {
+                  subIntake.stop();
+                },
+                subIntake, subAngle));
+
+    new Trigger(this::get0).onTrue(new Subwoofer(subAngle));
 
     new JoystickButton(operatorControl, XboxController.Button.kStart.value)
         .whileTrue(
@@ -142,6 +158,13 @@ public class RobotContainer {
     }
     return false;
 
+  }
+
+  private boolean get0() {
+    if (operatorControl.getPOV() == 0) {
+      return true;
+    }
+    return false;
   }
 
   public Command getAutonomousCommand() {

@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.util.Units;
-import swervelib.math.Matter;
 import swervelib.math.SwerveMath;
 import swervelib.parser.PIDFConfig;
 
@@ -23,25 +20,16 @@ public final class Constants {
     public static final double ROBOT_MASS = 35;
 
     // Posições do centro de massa
-    private static final double xMass = 0;
-    private static final double yMass = 0;
-    private static final double zMass = .08;
-    // Centro de massa do chassi
-    public static final Matter CHASSIS = new Matter(
-        new Translation3d(xMass, yMass, (zMass)),
-        ROBOT_MASS);
 
     // Máxima aceleração e velocidade
     public static final double MAX_ACCE_AUTO = 4.5;
     public static final double MAX_VEL_AUTO = 4.5;
 
     // Diâmetro da roda do módulo
-    public static final double wheelDiameterInMeters = Units.inchesToMeters(4);
-    public static final double coletorDiameterInMeters = Units.inchesToMeters(
-        2);
+    public static final double wheelDiameterInMeters = 0.1016;
 
     // Redução para motor de acionamento e ângulo
-    public static final double driveGearRatio = 6.18;
+    public static final double driveGearRatio = 6.75;
     public static final double angleGearRatio = 21.42;
 
     // PPR do encoder interno NEO;

@@ -7,17 +7,13 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.Dimensoes;
 import frc.robot.Constants.Tracao;
 import frc.robot.subsystems.SwerveSubsystem;
 
-import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
-import swervelib.math.SwerveMath;
 
 /**
  * A more advanced Swerve Control System that has 4 buttons for which direction to face
@@ -128,17 +124,6 @@ public class AbsoluteDriveAdv extends Command
     Translation2d translation = SwerveController.getTranslation2d(desiredSpeeds);
 
     // Caso essa função seja verdadeira a aceleração do robô será limitada
-    if(Tracao.accelCorrection) {
-        translation = SwerveMath.limitVelocity(translation, swerve.getFieldVelocity(), swerve.getPose(),
-                                              Dimensoes.LOOP_TIME, Dimensoes.ROBOT_MASS, 
-                                               List.of(Dimensoes.CHASSIS),
-                                               swerve.getSwerveDriveConfiguration());
-
-        SmartDashboard.putNumber("LimitedTranslation", translation.getX());
-        SmartDashboard.putString("Translation", translation.toString());
-    }
-                                      
-
 
     // Make the robot move
     swerve.drive(translation, desiredSpeeds.omegaRadiansPerSecond, Tracao.fieldRelative);

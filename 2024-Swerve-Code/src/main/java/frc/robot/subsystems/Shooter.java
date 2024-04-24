@@ -19,7 +19,7 @@ public class Shooter extends SubsystemBase {
     shooter2 = new CANSparkMax(10, MotorType.kBrushless);
     conveyor = new CANSparkMax(11, MotorType.kBrushless);
 
-    shooter2.setInverted(false);
+    shooter2.setInverted(true);
     shooter1.setInverted(true);
 
     conveyor.setInverted(true);
@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getProximity() {
-    return colorSensor.getProximity();
+    return proximitySensorReading;
   }
 
   public void collectWithSensor(double speed) {
@@ -61,6 +61,12 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Sensor Proximity", colorSensor.getProximity());
+    SmartDashboard.putNumber("Sensor Proximity", getProximity());
+  }
+
+  public int proximitySensorReading = 0;
+
+  public void colorSensorPeriodic() {
+    proximitySensorReading = colorSensor.getProximity();
   }
 }

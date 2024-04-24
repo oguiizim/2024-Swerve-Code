@@ -8,10 +8,8 @@ import frc.robot.subsystems.Shooter;
 public class ShooterCmd extends Command {
 
   Shooter shooter;
-  Joystick control;
 
-  public ShooterCmd(Shooter subsystem, Joystick control) {
-    this.control = control;
+  public ShooterCmd(Shooter subsystem) {
     shooter = subsystem;
 
     addRequirements(subsystem);
@@ -23,11 +21,7 @@ public class ShooterCmd extends Command {
 
   @Override
   public void execute() {
-    if (control.getRawButton(Controle.kA)) {
-      shooter.collectWithSensor(0.25);
-    } else {
-      shooter.stopMotorConveyor();
-    }
+    shooter.collectWithSensor(0.25);
   }
 
   @Override

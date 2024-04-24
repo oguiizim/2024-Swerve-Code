@@ -23,9 +23,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Controle;
 import frc.robot.Constants.Trajetoria;
+import frc.robot.commands.Angle;
 import frc.robot.commands.AngleCmd;
 import frc.robot.commands.Gyro;
 import frc.robot.commands.GyroLimelight;
+import frc.robot.commands.Return0;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.ShootSource;
 import frc.robot.commands.ShootSpeaker;
@@ -98,15 +100,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("putAngle", Commands.runOnce(
         () -> subAngle.setTarget(subAngle.getAngle()),
         subAngle));
-
-    NamedCommands.registerCommand("angle1", Commands.runOnce(() -> subAngle.setTarget(0.72), subAngle));
-
-    NamedCommands.registerCommand("angle2", Commands.runOnce(() -> subAngle.setTarget(0.76), subAngle));
-
-    NamedCommands.registerCommand("angle3", Commands.runOnce(() -> subAngle.setTarget(0.77), subAngle));
-
-    NamedCommands.registerCommand("angle4", Commands.runOnce(() -> subAngle.setTarget(0.65), subAngle));
-
+    NamedCommands.registerCommand("angle1", Commands.runOnce(() -> subAngle.setTarget(0.78), subAngle));
+    NamedCommands.registerCommand("angle2", Commands.runOnce(() -> subAngle.setTarget(0.82), subAngle));
+    NamedCommands.registerCommand("angle3", Commands.runOnce(() -> subAngle.setTarget(0.83), subAngle));
+    NamedCommands.registerCommand("angle4", Commands.runOnce(() -> subAngle.setTarget(0.730), subAngle));
     NamedCommands.registerCommand("angle5", Commands.runOnce(() -> subAngle.setTarget(0.777), subAngle));
 
     NamedCommands.registerCommand("angle6", Commands.runOnce(() -> subAngle.setTarget(0.65), subAngle));
@@ -114,10 +111,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("return0", Commands.runOnce(() -> subAngle.setTarget(0.1), subAngle));
 
     NamedCommands.registerCommand("gyro0", new Gyro(swerve, 0));
+    NamedCommands.registerCommand("gyro50", new Gyro(swerve, 50));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
-    subShooter.setDefaultCommand(new ShooterCmd(subShooter, operatorControl));
+    subShooter.setDefaultCommand(new ShooterCmd(subShooter));
     subAngle.setDefaultCommand(new AngleCmd(subAngle, operatorControl));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -130,26 +128,43 @@ public class RobotContainer {
         .onTrue(new InstantCommand(swerve::zeroGyro));
 
     new Trigger(this::getRight).onTrue(new ShootSpeaker(subShooter));
-    new Trigger(this::getLeft).onTrue(new ShootAmp(subShooter));
+    new Trigger(this::getLeft).onTrue(new ShootAmp(subShooter, subAngle));
+    new Trigger(this::getLeft).onTrue(Commands.runOnce(() -> subShooter.stopAll(), subShooter));
+
+    new JoystickButton(operatorControl, XboxController.Button.kB.value).onTrue(new ShootAmp(subShooter, subAngle));
+
+    new JoystickButton(operatorControl, XboxController.Button.kY.value).onTrue(new Return0(subAngle));
+
+    new JoystickButton(operatorControl, XboxController.Button.kX.value).onTrue(new Angle(subAngle));
+
+    new JoystickButton(operatorControl, XboxController.Button.kA.value).onTrue(new ShooterCmd(subShooter))
+        .onFalse(Commands.runOnce(() -> subShooter.stopMotorConveyor(), subShooter));
 
     new JoystickButton(operatorControl, XboxController.Button.kA.value)
         .whileTrue(
             Commands.startEnd(
-                () -> subIntake.collect(),
+                () -> {subIntake.collect();subShooter.stopMotor();},
                 () -> subIntake.stop(),
-                subIntake));
+                subIntake, subShooter));
 
     new JoystickButton(operatorControl, XboxController.Button.kStart.value)
         .whileTrue(
             Commands.startEnd(
-                () -> subIntake.invert(),
-                () -> subIntake.stop(),
-                subIntake));
+                () -> {
+                  subIntake.invert();
+                  subShooter.setSpeedConveyor(-0.27);
+                  subShooter.setSpeed(-0.30);
+                },
+                () -> {
+                  subIntake.stop();
+                  subShooter.stopAll();
+                },  
+                subIntake, subShooter));
 
     new JoystickButton(
         operatorControl,
         XboxController.Button.kRightBumper.value)
-        .onTrue(new ShootSource(subShooter));
+        .onTrue(new ShootSource(subShooter, subAngle));
 
     new JoystickButton(driverControl, XboxController.Button.kX.value).onTrue(new GyroLimelight(swerve, 0));
 
@@ -167,16 +182,28 @@ public class RobotContainer {
       return true;
     }
     return false;
+
+  }
+
+  private boolean get0() {
+    if (operatorControl.getPOV() == 0) {
+      return true;
+    }
+    return false;
   }
 
   public Command getAutonomousCommand() {
-    swerve.zeroGyro();
-    return autoChooser.getSelected();
+    // swerve.zeroGyro();
+    // return autoChooser.getSelected();
 
-    // return swerve.getAutonomousCommand(Trajetoria.NOME_TRAJETORIA2, true, true);
+    return swerve.getAutonomousCommand(Trajetoria.NOME_TRAJETORIA, true, true);
   }
 
   public void setMotorBrake(boolean brake) {
     swerve.setMotorBrake(brake);
+  }
+
+  public Runnable getProximitySensorLoop() {
+    return subShooter::colorSensorPeriodic;
   }
 }

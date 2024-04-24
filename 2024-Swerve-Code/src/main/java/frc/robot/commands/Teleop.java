@@ -56,9 +56,9 @@ public class Teleop extends Command {
     this.swerve = swerve;
     this.controle1 = controle1;
 
-    pid = new PIDController(10, 0, 0);
+    // pid = new PIDController(10, 0, 0);
 
-    pid.setTolerance(7);
+    // pid.setTolerance(7);
 
     controller = swerve.getSwerveController(); // Obtemos o controlador do swerve
     // Adiciona a tração como requerimento

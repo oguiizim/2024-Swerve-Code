@@ -128,8 +128,5 @@ public final class Constants {
     // Auto Speaker: 4 notes
     public static final String NOME_TRAJETORIA = "Auto Mid";
     // Auto Source: 2 notes
-    public static final String NOME_TRAJETORIA2 = "Auto Source Mid";
-    // Auto Amp: 2 notes
-    public static final String NOME_TRAJETORIA3 = "Auto Amp";
   }
 }

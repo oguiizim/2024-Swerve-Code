@@ -19,7 +19,7 @@ public class ShooterCmd extends Command {
 
   @Override
   public void execute() {
-    shooter.collectWithSensor(0.25);
+    // shooter.setSpeedConveyor(0.25);
   }
 
   @Override

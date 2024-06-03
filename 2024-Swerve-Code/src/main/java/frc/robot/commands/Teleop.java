@@ -35,10 +35,6 @@ public class Teleop extends Command {
 
   XboxController controle1;
 
-  PIDController pid;
-
-  boolean button, button2;
-
   public Teleop(
       SwerveSubsystem swerve,
       DoubleSupplier y,

@@ -68,48 +68,40 @@ public class RobotContainer {
             () -> -MathUtil.applyDeadband(driverControl.getRightX(), Controle.DEADBAND),
             driverControl));
 
-    NamedCommands.registerCommand("mShoot1", new mShoot1(subShooter, subAngle));
-
-    NamedCommands.registerCommand("mShoot2", new mShoot2(subShooter));
-
-    NamedCommands.registerCommand("mShoot3", new mShoot3(subShooter));
-
-    NamedCommands.registerCommand("sShoot1", new sShoot1(subShooter));
-
-    NamedCommands.registerCommand("sShoot2", new sShoot2(subShooter));
-
-    NamedCommands.registerCommand("aShoot1", new aShoot1(subShooter));
-
-    NamedCommands.registerCommand("aShoot2", new aShoot2(subShooter));
-
-    NamedCommands.registerCommand("collectConveyor",
-        Commands.run(() -> subShooter.collectWithSensor(0.25), subShooter));
-
-    NamedCommands.registerCommand("collect", Commands.runOnce(() -> {
-      subAngle.setTarget(0.5);
-      subIntake.collectAuto();
-    }, subAngle, subIntake));
-
-    NamedCommands.registerCommand("stopIntake", Commands.runOnce(() -> {
-      subIntake.stop();
-      subShooter.stopMotorConveyor();
-    }, subIntake, subShooter));
-
-    NamedCommands.registerCommand("putAngle", Commands.runOnce(
-        () -> subAngle.setTarget(subAngle.getAngle()),
-        subAngle));
-    NamedCommands.registerCommand("angle1", Commands.runOnce(() -> subAngle.setTarget(0.78), subAngle));
-    NamedCommands.registerCommand("angle2", Commands.runOnce(() -> subAngle.setTarget(0.82), subAngle));
-    NamedCommands.registerCommand("angle3", Commands.runOnce(() -> subAngle.setTarget(0.83), subAngle));
-    NamedCommands.registerCommand("angle4", Commands.runOnce(() -> subAngle.setTarget(0.730), subAngle));
-    NamedCommands.registerCommand("angle5", Commands.runOnce(() -> subAngle.setTarget(0.777), subAngle));
-
-    NamedCommands.registerCommand("angle6", Commands.runOnce(() -> subAngle.setTarget(0.65), subAngle));
-
-    NamedCommands.registerCommand("return0", Commands.runOnce(() -> subAngle.setTarget(0.1), subAngle));
-
-    NamedCommands.registerCommand("gyro0", new Gyro(swerve, 0));
-    NamedCommands.registerCommand("gyro50", new Gyro(swerve, 50));
+    // NamedCommands.registerCommand("mShoot1", new mShoot1(subShooter, subAngle));
+    // NamedCommands.registerCommand("mShoot2", new mShoot2(subShooter));
+    // NamedCommands.registerCommand("mShoot3", new mShoot3(subShooter));
+    // NamedCommands.registerCommand("sShoot1", new sShoot1(subShooter));
+    // NamedCommands.registerCommand("sShoot2", new sShoot2(subShooter));
+    // NamedCommands.registerCommand("aShoot1", new aShoot1(subShooter));
+    // NamedCommands.registerCommand("aShoot2", new aShoot2(subShooter));
+    // NamedCommands.registerCommand("collect", Commands.runOnce(() -> {
+    // subAngle.setTarget(0.5);
+    // subIntake.collectAuto();
+    // }, subAngle, subIntake));
+    // NamedCommands.registerCommand("stopIntake", Commands.runOnce(() -> {
+    // subIntake.stop();
+    // subShooter.stopMotorConveyor();
+    // }, subIntake, subShooter));
+    // NamedCommands.registerCommand("putAngle", Commands.runOnce(
+    // () -> subAngle.setTarget(subAngle.getAngle()),
+    // subAngle));
+    // NamedCommands.registerCommand("angle1", Commands.runOnce(() ->
+    // subAngle.setTarget(0.78), subAngle));
+    // NamedCommands.registerCommand("angle2", Commands.runOnce(() ->
+    // subAngle.setTarget(0.82), subAngle));
+    // NamedCommands.registerCommand("angle3", Commands.runOnce(() ->
+    // subAngle.setTarget(0.83), subAngle));
+    // NamedCommands.registerCommand("angle4", Commands.runOnce(() ->
+    // subAngle.setTarget(0.730), subAngle));
+    // NamedCommands.registerCommand("angle5", Commands.runOnce(() ->
+    // subAngle.setTarget(0.777), subAngle));
+    // NamedCommands.registerCommand("angle6", Commands.runOnce(() ->
+    // subAngle.setTarget(0.65), subAngle));
+    // NamedCommands.registerCommand("return0", Commands.runOnce(() ->
+    // subAngle.setTarget(0.1), subAngle));
+    // NamedCommands.registerCommand("gyro0", new Gyro(swerve, 0));
+    // NamedCommands.registerCommand("gyro50", new Gyro(swerve, 50));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -127,42 +119,17 @@ public class RobotContainer {
 
     new Trigger(this::getRight).onTrue(new ShootSpeaker(subShooter));
     new Trigger(this::getLeft).onTrue(new ShootAmp(subShooter, subAngle));
-    new Trigger(this::getLeft).onTrue(Commands.runOnce(() -> subShooter.stopAll(), subShooter));
-
-    new JoystickButton(operatorControl, XboxController.Button.kB.value).onTrue(new ShootAmp(subShooter, subAngle));
-
-    new JoystickButton(operatorControl, XboxController.Button.kY.value).onTrue(new Return0(subAngle));
-
-    new JoystickButton(operatorControl, XboxController.Button.kX.value).onTrue(new Angle(subAngle));
-
-    new JoystickButton(operatorControl, XboxController.Button.kA.value).onTrue(new ShooterCmd(subShooter))
-        .onFalse(Commands.runOnce(() -> subShooter.stopMotorConveyor(), subShooter));
+    // new Trigger(this::getLeft).onTrue(Commands.runOnce(() ->
+    // subShooter.stopAll(), subShooter));
 
     new JoystickButton(operatorControl, XboxController.Button.kA.value)
-        .whileTrue(
-            Commands.startEnd(
-                () -> {subIntake.collect();subShooter.stopMotor();},
-                () -> subIntake.stop(),
-                subIntake, subShooter));
-
-    new JoystickButton(operatorControl, XboxController.Button.kStart.value)
-        .whileTrue(
-            Commands.startEnd(
-                () -> {
-                  subIntake.invert();
-                  subShooter.setSpeedConveyor(-0.27);
-                  subShooter.setSpeed(-0.30);
-                },
-                () -> {
-                  subIntake.stop();
-                  subShooter.stopAll();
-                },  
-                subIntake, subShooter));
-
-    new JoystickButton(
-        operatorControl,
-        XboxController.Button.kRightBumper.value)
-        .onTrue(new ShootSource(subShooter, subAngle));
+        .whileTrue(Commands.startEnd(() -> {
+          subIntake.collect();
+          subShooter.setSpeedConveyor(0.25);
+        }, () -> {
+          subIntake.stop();
+          subShooter.stopMotorConveyor();
+        }, subIntake));
 
     new JoystickButton(driverControl, XboxController.Button.kX.value).onTrue(new GyroLimelight(swerve, 0));
 
@@ -183,13 +150,6 @@ public class RobotContainer {
 
   }
 
-  private boolean get0() {
-    if (operatorControl.getPOV() == 0) {
-      return true;
-    }
-    return false;
-  }
-
   public Command getAutonomousCommand() {
     // swerve.zeroGyro();
     // return autoChooser.getSelected();
@@ -201,7 +161,4 @@ public class RobotContainer {
     swerve.setMotorBrake(brake);
   }
 
-  public Runnable getProximitySensorLoop() {
-    return subShooter::colorSensorPeriodic;
-  }
 }

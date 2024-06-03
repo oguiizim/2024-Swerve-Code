@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
-    addPeriodic(m_robotContainer.getProximitySensorLoop(), 0.1);
+    // addPeriodic(m_robotContainer.getProximitySensorLoop(), 0.1);
 
   }
 

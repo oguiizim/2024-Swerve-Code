@@ -2,48 +2,30 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
 
-  CANSparkMax shooter1, shooter2, conveyor;
-
-  I2C.Port i2cport = I2C.Port.kOnboard;
-  ColorSensorV3 colorSensor = new ColorSensorV3(i2cport);
+  CANSparkMax BlackShooter, GreenShooter, conveyor;
 
   public Shooter() {
-    shooter1 = new CANSparkMax(9, MotorType.kBrushless);
-    shooter2 = new CANSparkMax(10, MotorType.kBrushless);
-    conveyor = new CANSparkMax(11, MotorType.kBrushless);
+    BlackShooter = new CANSparkMax(13, MotorType.kBrushless);
+    GreenShooter = new CANSparkMax(14, MotorType.kBrushless);
+    conveyor = new CANSparkMax(15, MotorType.kBrushless);
 
-    shooter2.setInverted(true);
-    shooter1.setInverted(true);
+    GreenShooter.setInverted(true);
+    BlackShooter.setInverted(true);
 
     conveyor.setInverted(true);
-    shooter2.follow(shooter1);
-  }
-
-  public double getProximity() {
-    return proximitySensorReading;
-  }
-
-  public void collectWithSensor(double speed) {
-    if (getProximity() > 150) {
-      conveyor.stopMotor();
-    } else {
-      conveyor.set(speed);
-    }
+    GreenShooter.follow(BlackShooter);
   }
 
   public void setSpeed(double speed) {
-    shooter1.set(speed);
+    BlackShooter.set(speed);
   }
 
   public void stopMotor() {
-    shooter1.stopMotor();
+    BlackShooter.stopMotor();
   }
 
   public void setSpeedConveyor(double speed) {
@@ -55,18 +37,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void stopAll() {
-    shooter1.stopMotor();
+    BlackShooter.stopMotor();
     conveyor.stopMotor();
   }
 
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber("Sensor Proximity", getProximity());
-  }
-
-  public int proximitySensorReading = 0;
-
-  public void colorSensorPeriodic() {
-    proximitySensorReading = colorSensor.getProximity();
-  }
 }

@@ -45,6 +45,18 @@ public final class Constants {
         pulsePerRotation);
   }
 
+  public static final class Motors {
+    public static final int frontIntake = 9;
+    public static final int backIntake = 15;
+
+    public static final int upperShooter = 9;
+    public static final int lowerShooter = 11;
+    public static final int conveyorShooter = 10;
+
+    public static final int angleShooter1 = 12;
+    public static final int angleShooter2 = 13;
+  }
+
   public static final class PID {
 
     // PID para frente e para trás
@@ -59,7 +71,7 @@ public final class Constants {
     public static double translationD = 0.0;
 
     // PID de angulação do Lançador
-    public static double kP = 1.45;
+    public static double kP = 1.2;
     public static double kI = 0.0;
     public static double kD = 0.0;
   }
@@ -102,7 +114,7 @@ public final class Constants {
 
     public static final double TURN_CONSTANT = 0.75;
 
-    public static final double MAX_SPEED = 16;
+    public static final double MAX_SPEED = 15;
 
     public static final double dt = 0.02;
 

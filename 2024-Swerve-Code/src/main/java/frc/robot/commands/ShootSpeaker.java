@@ -9,7 +9,7 @@ public class ShootSpeaker extends SequentialCommandGroup {
 
   public ShootSpeaker(Shooter shooter) {
     addCommands(
-      Commands.runOnce(() -> shooter.setSpeed(0.65), shooter),
+        Commands.runOnce(() -> shooter.setSpeed(1), shooter),
       new WaitCommand(2),
       Commands.runOnce(() -> shooter.setSpeedConveyor(1), shooter),
       new WaitCommand(1.5),

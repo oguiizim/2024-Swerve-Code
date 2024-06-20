@@ -119,8 +119,6 @@ public class RobotContainer {
 
     new Trigger(this::getRight).onTrue(new ShootSpeaker(subShooter));
     new Trigger(this::getLeft).onTrue(new ShootAmp(subShooter, subAngle));
-    // new Trigger(this::getLeft).onTrue(Commands.runOnce(() ->
-    // subShooter.stopAll(), subShooter));
 
     new JoystickButton(operatorControl, XboxController.Button.kA.value)
         .whileTrue(Commands.startEnd(() -> {
